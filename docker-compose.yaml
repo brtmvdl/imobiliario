@@ -1,0 +1,56 @@
+version: '3'
+
+services:
+
+  www:
+    build: './src/front/www'
+    volumes:
+      - './src/front/www/html:/usr/share/nginx/html'
+    ports:
+      - '80:80'
+
+  panel:
+    build: './src/front/panel'
+    volumes:
+      - './src/front/panel/html:/usr/share/nginx/html/panel'
+
+  files:
+    build: './src/front/files'
+    volumes:
+      - './data/uploads:/usr/share/nginx/html/files/uploads'
+
+  api_users_register:
+    hostname: api_users_register
+    build: './src/api/users-register'
+    env_file:
+      - './docker-compose.env'
+    restart: always
+    volumes:
+      - './src/api/users-register:/imobiliario/app'
+      - './src/commons:/imobiliario/commons'
+      - './data:/imobiliario/data'
+      - './logs:/imobiliario/logs'
+
+  api_users_login:
+    hostname: api_users_login
+    build: './src/api/users-login'
+    env_file:
+      - './docker-compose.env'
+    restart: always
+    volumes:
+      - './src/api/users-login:/imobiliario/app'
+      - './src/commons:/imobiliario/commons'
+      - './data:/imobiliario/data'
+      - './logs:/imobiliario/logs'
+
+  api_upload:
+    hostname: api_upload
+    build: './src/api/upload'
+    env_file:
+      - './docker-compose.env'
+    restart: always
+    volumes:
+      - './src/api/upload:/go/src'
+      - './src/commons:/imobiliario/commons'
+      - './data:/imobiliario/data'
+      - './logs:/imobiliario/logs'
