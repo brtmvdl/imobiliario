@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Imobiliario</title>
+</head>
+
+<body id="body">
+
+  <div id="app"></div>
+
+  <script src="./scripts/back.js"></script>
+  <script src="./scripts/front.js"></script>
+  <script src="./scripts/commons.js"></script>
+
+  <script>
+    const page = nElement.fromId('app')
+
+    const center = new nContainerComponent()
+
+    const page_title = new nH1()
+    page_title.setText('Imobiliario')
+    center.top.append(page_title)
+
+    const house_title = new nTextInputComponent()
+    house_title.label.setText('Título')
+    center.left.append(house_title)
+
+    const house_photo_gallery = new nPhotoGalleryComponent()
+    house_photo_gallery.label.setText('Fotos')
+    center.left.append(house_photo_gallery)
+
+    const send_button = new nButton()
+    send_button.setText('Salvar')
+    send_button.on('click', () => {
+      const house = {
+        title: house_title.input.getValue(),
+        photos: house_photo_gallery.getValue(),
+      }
+
+      Api.housesCreate({ house })
+        .catch((error) => {
+          switch (error.type) {
+            case OBJECT_TYPES.VALIDATION: {
+              // TODO
+            }; break;
+
+            case OBJECT_TYPES.RESPONSE_SUCCESS: {
+              // TODO
+            }; break;
+          }
+        })
+    })
+    center.left.append(send_button)
+
+    page.append(center)
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Imobiliario</title>
+</head>
+
+<body id="body">
+  <div id="app"></div>
+  <script src="./scripts/back.js"></script>
+  <script src="./scripts/front.js"></script>
+  <script src="./scripts/commons.js"></script>
+
+  <script>
+    const page = nElement.fromId('app')
+
+    const name_input = new nTextInputComponent()
+    name_input.label.setText('Nome')
+
+    const email_input = new nTextInputComponent()
+    email_input.label.setText('E-mail')
+
+    const other_errors = new nText()
+    other_errors.style('color', 'red')
+
+    const center = new nCenterFormComponent()
+
+    center.title.setText('Imobiliario')
+
+    center.form.append(name_input)
+    center.form.append(email_input)
+    center.form.append(other_errors)
+
+    center.button.setText('Me cadastrar')
+    center.button.on('click', () => {
+      other_errors.setText('')
+
+      Api.usersRegister({
+        name: name_input.input.getValue(),
+        email: email_input.input.getValue(),
+      }).catch(setErrorMessages)
+    })
+
+    const setErrorMessages = (error) => {
+      console.log({ error })
+
+      switch (error.type) {
+        case OBJECT_TYPES.VALIDATION: {
+          name_input.error.setText(error.get('name'))
+          email_input.error.setText(error.get('email'))
+        } break;
+
+        case OBJECT_TYPES.RESPONSE_ERROR: {
+          other_errors.setText(error.getMessage())
+        } break;
+      }
+    }
+
+    center.link.setText('Fazer login')
+    center.link.href('login.html')
+
+    page.append(center)
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Imobiliario</title>
+</head>
+
+<body id="body">
+
+  <div id="app"></div>
+
+  <script src="./scripts/back.js"></script>
+  <script src="./scripts/front.js"></script>
+  <script src="./scripts/commons.js"></script>
+
+  <script>
+    const page = nElement.fromId('app')
+
+    const email_input_group = new nTextInputComponent()
+    email_input_group.label.setText('E-mail')
+
+    const center = new nCenterFormComponent()
+    center.title.setText('Imobiliario')
+    center.form.append(email_input_group)
+    center.button.setText('Entrar')
+    center.button.on('click', () => Api.login({ email: email_input_group.input.getValue() }))
+    center.link.setText('Fazer meu cadastro')
+    center.link.href('register.html')
+
+    page.append(center)
+  </script>
+</body>
+
+</html>
