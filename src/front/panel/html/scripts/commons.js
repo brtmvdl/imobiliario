@@ -1,3 +1,3 @@
 nElement.fromId('body')
 .style('font-family', 'sans-serif')
-.style('background-color', '#dcdcdc')
+.style('background-color', '#ddd')

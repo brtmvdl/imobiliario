@@ -9,18 +9,19 @@ Flow.goTo = (path) => (window.location = path)
 
 const Styles = {
   'default': {
-    'width': '100%',
-    'margin': '1rem',
+    'background-color': '#ccc',
     'border': 'none',
-    'outline': 'none',
+    'box-sizing': 'border-box',
+    'color': '#000',
+    'display': 'inline-block',
     'font': 'inherit',
+    'margin': '1rem',
+    'margin-bottom': '0.5rem',
+    'outline': 'none',
     'padding': '1rem',
     'text-align': 'center',
-    'display': 'inline-block',
     'text-decoration': 'none',
-    'margin-bottom': '0.5rem',
-    'box-sizing': 'border-box',
-    'background-color': '#cbcbcb',
+    'width': '100%',
   },
   'h1': {
     'font-size': '2.5rem',
@@ -241,7 +242,7 @@ class nTextInput extends nElement {
     this.style('padding', '0.5rem')
     this.style('display', 'inline-block')
     this.style('box-sizing', 'border-box')
-    this.style('box-shadow', '0 0 0.1rem 0 #000000')
+    this.style('box-shadow', '0 0 0.1rem 0 #000')
   }
 
   getValue(def = null) {
@@ -278,7 +279,6 @@ class nLink extends nElement {
 
     this.style('text-decoration', 'none')
     this.style('display', 'inline-block')
-    this.style('width')
   }
 
   href(url = '') {
@@ -325,6 +325,18 @@ class nImage extends nElement {
   }
 }
 
+class nButtonLink extends nLink {
+  constructor(){
+    super({
+      component: { name: 'button-link' },
+    })
+
+    this.style('background-color')
+    this.style('padding')
+    this.style('color')
+  }
+}
+
 /// components ///
 
 class nTextInputComponent extends nElement {
@@ -364,7 +376,7 @@ class nCenterFormComponent extends nElement {
     self.style('padding')
     self.style('width', '25rem')
     self.style('margin', '0 auto')
-    self.style('background-color', '#ededed')
+    self.style('background-color', '#eee')
 
     self.title.style('text-align')
     self.append(self.title)
@@ -413,11 +425,11 @@ class nContainerComponent extends nElement {
 }
 
 class nPhotoGalleryComponent extends nElement {
-  label = new nText
-  error = new nTextError
+  label = new nText()
+  error = new nTextError()
 
-  input = new nFileInput
-  button = new nButton
+  input = new nFileInput()
+  button = new nButton()
 
   thumbs = []
 
@@ -464,7 +476,7 @@ class nPhotoGalleryComponent extends nElement {
       thumb.style('height', '8rem')
       thumb.style('width', '8rem')
       thumb.style('padding', '0.5rem')
-      thumb.style('background-color', '#cbcbcb')
+      thumb.style('background-color', '#ccc')
 
       const image = new nImage()
       image.src(file.url)
