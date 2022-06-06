@@ -1,3 +1,3 @@
 # Imobiliario
 
-Para imobiliárias (ou corretores de imóveis)
+Para imobiliárias (ou corretoras de imóveis)
