@@ -1,4 +1,19 @@
 
+/// Translator ///
+
+const Translations = {
+  'pt-br': {
+    'Server error': 'Erro no servidor.',
+    'Can not duplicate this item.': 'Não podemos duplicar esse item.',
+  },
+}
+
+const Translator = {
+  in: (language) => ({
+    translate: (message) => Translations[language][message.trim()],
+  }),
+}
+
 /// Flow ///
 
 const Flow = {}
@@ -64,104 +79,87 @@ class nElement {
   }
 
   static fromId(id = '') {
-    const self = new nElement()
+    const self = new nElement
     const element = document.getElementById(id)
     self.setElement(element)
     return self
   }
 
   setElement(element) {
-    const self = this
-    self.element = element
-    return self
+    this.element = element
+    return this
   }
 
   setText(text = '') {
-    const self = this
-    self.element.innerText = text
-    return self
+    this.element.innerText = text
+    return this
   }
 
   setHTML(html = '') {
-    const self = this
-    self.element.innerHTML = html
-    return self
+    this.element.innerHTML = html
+    return this
   }
 
   style(name, value = 'default') {
-    const self = this
-
     if (value === 'default') {
-      if (Styles[self.default.element.tagName] && Styles[self.default.element.tagName][name]) {
-        value = Styles[self.default.element.tagName][name]
-      } else {
-        value = Styles['default'][name]
-      }
+      const styles = Styles[this.default.element?.tagName]
+        || Styles['default']
+
+      value = styles[name]
     }
 
-    self.element.style[name] = value
-
-    return self
+    this.element.style[name] = value
+    return this
   }
 
   attr(name, value) {
-    const self = this
-    self.element[name] = value
-    return self
+    this.element[name] = value
+    return this
   }
 
   on(name, func) {
-    const self = this
-    self.element.addEventListener(name, func)
-    return self
+    this.element.addEventListener(name, func)
+    return this
   }
 
   append(nelement = new nElement) {
-    const self = this
-    self.element.append(nelement.render())
-    return self
+    this.element.append(nelement.render())
+    return this
   }
 
   prepend(nelement = new nElement) {
-    const self = this
-    self.element.prepend(nelement.render())
-    return self
+    this.element.prepend(nelement.render())
+    return this
   }
 
   render() {
-    const self = this
-    self.container.childNodes.forEach(child => child.remove())
-    self.container.append(self.element)
-    return self.container
+    this.container.childNodes.forEach(child => child.remove())
+    this.container.append(this.element)
+    return this.container
   }
 
   styleContainer(name, value = '') {
-    const self = this
-    self.container.style[name] = value
+    this.container.style[name] = value
     return this.component
   }
 
   attrContainer(name, value) {
-    const self = this
-    self.container[name] = value
+    this.container[name] = value
     return this.component
   }
 
   eventContainer(name, func) {
-    const self = this
-    self.container.addEventListener(name, func)
+    this.container.addEventListener(name, func)
     return this.component
   }
 
   appendContainer(nelement = new nElement) {
-    const self = this
-    self.container.append(nelement.render())
+    this.container.append(nelement.render())
     return this.component
   }
 
   prependContainer(nelement = new nElement) {
-    const self = this
-    self.container.prepend(nelement.render())
+    this.container.prepend(nelement.render())
     return this.component
   }
 }
@@ -245,9 +243,8 @@ class nTextInput extends nElement {
     this.style('box-shadow', '0 0 0.1rem 0 #000')
   }
 
-  getValue(def = null) {
-    const self = this
-    return self.element.value || def
+  getValue() {
+    return this.element.value
   }
 }
 
@@ -282,9 +279,8 @@ class nLink extends nElement {
   }
 
   href(url = '') {
-    const self = this
-    self.element.href = url
-    return self
+    this.element.href = url
+    return this
   }
 }
 
@@ -313,20 +309,18 @@ class nImage extends nElement {
   }
 
   src(src = '') {
-    const self = this
-    self.attr('src', src)
-    return self
+    this.attr('src', src)
+    return this
   }
 
   alt(alt = '') {
-    const self = this
-    self.attr('alt', alt)
-    return self
+    this.attr('alt', alt)
+    return this
   }
 }
 
 class nButtonLink extends nLink {
-  constructor(){
+  constructor() {
     super({
       component: { name: 'button-link' },
     })
@@ -337,164 +331,3 @@ class nButtonLink extends nLink {
   }
 }
 
-/// components ///
-
-class nTextInputComponent extends nElement {
-  label = new nText()
-  input = new nTextInput()
-  error = new nTextError()
-
-  constructor() {
-    super({
-      component: { name: 'text-input-component' },
-    })
-
-    const self = this
-
-    self.append(self.label)
-
-    self.input.on('keyup', () => self.error.setText(''))
-    self.append(self.input)
-
-    self.append(self.error)
-  }
-}
-
-class nCenterFormComponent extends nElement {
-  title = new nH1()
-  form = new nElement()
-  button = new nButton()
-  link = new nLink()
-
-  constructor() {
-    super({
-      component: { name: 'center-form' },
-    })
-
-    const self = this
-
-    self.style('padding')
-    self.style('width', '25rem')
-    self.style('margin', '0 auto')
-    self.style('background-color', '#eee')
-
-    self.title.style('text-align')
-    self.append(self.title)
-
-    self.append(self.form)
-
-    self.append(self.button)
-
-    self.link.style('text-align')
-    self.append(self.link)
-  }
-}
-
-class nContainerComponent extends nElement {
-  top = new nElement()
-  left = new nElement()
-  right = new nElement()
-  bottom = new nElement()
-
-  constructor() {
-    super({
-      component: { name: 'container-component' },
-    })
-
-    super.append(this.top)
-
-    const middle = new nFlex()
-
-    this.left.styleContainer('width', '69%')
-    middle.append(this.left)
-
-    this.right.styleContainer('width', '39%')
-    middle.append(this.right)
-
-    super.append(middle)
-
-    super.append(this.bottom)
-
-    super.style('margin', '0 auto')
-    super.style('width', '1220px') // FIXME: corrigir tamanho do container a partir da tamanho da tela 
-  }
-
-  append() {
-    throw new Error('Can not do this.')
-  }
-}
-
-class nPhotoGalleryComponent extends nElement {
-  label = new nText()
-  error = new nTextError()
-
-  input = new nFileInput()
-  button = new nButton()
-
-  thumbs = []
-
-  constructor() {
-    super({
-      component: { name: 'photo-gallery' },
-    })
-
-    this.build()
-  }
-
-  build() {
-    const self = this
-
-    super.append(self.label)
-
-    super.append(self.error)
-
-    self.input.on('change', ({ target: { files: [file] } }) => {
-      const { name, size, type } = file
-
-      Api.upload(file, { name, size, type })
-        .then((response) => {
-          const id = response.get('id')
-          const url = `http://0.0.0.0/files/uploads/${id}/file`
-          const file = { name, size, type, id, url }
-
-          const event = new Event('fileloaded')
-          event.file = file
-          self.element.dispatchEvent(event)
-        })
-        .catch((error) => {
-          console.error(error)
-          const event = new Event('fileerror')
-          event.error = error
-          self.element.dispatchEvent(event)
-        })
-    })
-
-    const images_area = new nElement()
-
-    self.on('fileloaded', ({ file }) => {
-      const thumb = new nElement()
-      thumb.style('height', '8rem')
-      thumb.style('width', '8rem')
-      thumb.style('padding', '0.5rem')
-      thumb.style('background-color', '#ccc')
-
-      const image = new nImage()
-      image.src(file.url)
-      thumb.append(image)
-
-      images_area.prepend(thumb)
-    })
-
-    self.button.setText('Adicionar')
-    self.button.style('width', '8rem')
-    self.button.style('height', '8rem')
-    self.button.on('click', () => self.input.element.click())
-    images_area.append(self.button)
-
-    super.append(images_area)
-  }
-
-  append() {
-    throw new Error('Can not do this.')
-  }
-}

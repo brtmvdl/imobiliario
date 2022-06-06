@@ -73,7 +73,8 @@ Ajax.responseError = function ({ responseText }) {
 
   self.getMessage = () => {
     const json = self.toJSON()
-    return json['message'] || 'Server error'
+    const message = json['message'] || 'Server error'
+    return Translator.in('pt-br').translate(message)
   }
 }
 
@@ -124,7 +125,7 @@ Api.usersRegister = ({ name, email }) =>
       email: [Validations.email()],
     })
     .then(() => Ajax.post(['users', 'register'], { name, email }))
-    .then(() => Flow.goTo('login.html'))
+    .then(() => Flow.goTo('index.html'))
 
 Api.upload = (file, { name, size, type }) => 
   Ajax.upload(file, { name, size, type })
