@@ -1,0 +1,38 @@
+{
+  "status": "ok",
+  "message": null,
+  "data": {
+    "list": [
+      {
+        "id": "1",
+        "name": "A. L. Rubin",
+        "logo": "123123123123"
+      },
+      {
+        "id": "2",
+        "name": "Adimoveis",
+        "logo": "123123123123"
+      },
+      {
+        "id": "3",
+        "name": "Piccolo",
+        "logo": "123123123123"
+      },
+      {
+        "id": "4",
+        "name": "Della Rio",
+        "logo": "123123123123"
+      },
+      {
+        "id": "5",
+        "name": "Mega Imobiliaria",
+        "logo": "123123123123"
+      },
+      {
+        "id": "6",
+        "name": "Na Terra",
+        "logo": "123123123123"
+      }
+    ]
+  }
+}
