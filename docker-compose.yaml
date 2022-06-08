@@ -6,18 +6,29 @@ services:
     build: './src/front/www'
     volumes:
       - './src/front/www/html:/usr/share/nginx/html'
+      - './src/front/commons:/usr/share/nginx/html/commons'
     ports:
       - '80:80'
+    depends_on:
+      - 'files'
+      - 'panel'
+      - 'static'
 
   panel:
     build: './src/front/panel'
     volumes:
       - './src/front/panel/html:/usr/share/nginx/html/panel'
+      - './src/front/commons:/usr/share/nginx/html/panel/commons'
 
   files:
     build: './src/front/files'
     volumes:
       - './data/uploads:/usr/share/nginx/html/files/uploads'
+
+  static:
+    build: './src/front/static'
+    volumes:
+      - './src/front/static/html:/usr/share/nginx/html/static'
 
   api_users_register:
     hostname: api_users_register
