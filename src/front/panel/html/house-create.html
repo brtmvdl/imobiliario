@@ -13,8 +13,8 @@
   <div id="app"></div>
 
   <script src="./scripts/back.js"></script>
-  <script src="./scripts/front.js"></script>
-  <script src="./scripts/components.js"></script>
+  <script src="./commons/front.js"></script>
+
 
   <script>
     const page = nElement.fromId('app')
@@ -29,7 +29,7 @@
     house_title.label.setText('Título')
     center.left.append(house_title)
 
-    const house_photo_gallery = new nPhotoGalleryComponent()
+    const house_photo_gallery = new nImageGalleryComponent()
     house_photo_gallery.label.setText('Fotos')
     center.left.append(house_photo_gallery)
 
