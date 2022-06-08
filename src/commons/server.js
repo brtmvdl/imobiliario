@@ -18,12 +18,6 @@ const HttpRequest = function (str) {
   }
 
   self.body = self.parseBody(str)
-
-  self.headers = {} // TODO
-
-  self.query = {} // TODO
-
-  self.url = '' // TODO
 }
 
 const HttpResponse = function () {
