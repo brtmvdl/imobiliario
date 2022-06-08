@@ -100,7 +100,7 @@ class nPageHeader extends nElement {
     const links = [
       { href: '/', text: 'Início' },
       { href: '/venda.html', text: 'Venda' },
-      { href: '/locação.html', text: 'Locação' },
+      { href: '/locacao.html', text: 'Locação' },
       { href: '/lancamentos.html', text: 'Lançamentos' },
       { href: '/mapa.html', text: 'Mapa' }
     ]
