@@ -28,14 +28,16 @@
     const page_search_container = new nWrapper()
     page_search_container.style('padding', '4rem 0')
 
+    let stop = false
+
     const search_input = new nTextInput()
     search_input.on('keyup', ({ keyCode }) => {
-      keyCode == 13 && 
+      keyCode == 13 &&
         Flow.page('search.html', { search: { query: search_input.getValue() } })
     })
+    search_input.on('focus', () => { stop = true })
+    search_input.on('blur', () => { stop = false; run_letters() })
     page_search_container.append(search_input)
-
-    let stop = false
 
     const letters = ({
       word_list = [],
@@ -43,7 +45,7 @@
       word_index = 0,
       letter_index = 0
     }) => {
-      if (stop) return
+      if (stop) return search_input.placeholder('')
 
       if (word_index < 0 || word_index > word_list.length - 1) {
         word_index = 0
@@ -75,7 +77,7 @@
       )
     }
 
-    letters({
+    const run_letters = () => letters({
       word_list: [
         'Kitnet para estudantes  ',
         'Casa em Rio Claro  ',
@@ -83,6 +85,8 @@
       ],
       inputer: (input) => search_input.placeholder(input),
     })
+
+    run_letters()
 
     const search_link = new nLink()
     search_link.setText('Ou use o filtro')
