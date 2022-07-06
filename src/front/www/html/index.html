@@ -23,10 +23,10 @@
     page.append(new nPageHeader())
 
     const page_search = new nElement()
-    page_search.style('background-color', '#33ccff')
+    page_search.setStyle('background-color', '#33ccff')
 
     const page_search_container = new nWrapper()
-    page_search_container.style('padding', '4rem 0')
+    page_search_container.setStyle('padding', '4rem 0')
 
     let stop = false
 
@@ -91,8 +91,8 @@
     const search_link = new nLink()
     search_link.setText('Ou use o filtro')
     search_link.href('search.html')
-    search_link.style('color', '#ffffff')
-    search_link.styleContainer('text-align', 'center')
+    search_link.setStyle('color', '#ffffff')
+    search_link.setStyleContainer('text-align', 'center')
     page_search_container.append(search_link)
 
     page_search.append(page_search_container)
