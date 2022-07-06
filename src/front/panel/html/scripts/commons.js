@@ -1,3 +1,3 @@
 nElement.fromElement(document.body)
-  .style('margin', '0')
-  .style('padding', '0')
+  .setStyle('margin', '0')
+  .setStyle('padding', '0')
