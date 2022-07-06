@@ -181,8 +181,8 @@ class nElement {
     this.container.classList.add(`ct-${name}`)
     this.element.classList.add(`el-${name}`)
 
-    this.style('outline', 'none')
-    this.style('box-sizing', 'border-box')
+    this.setStyle('outline', 'none')
+    this.setStyle('box-sizing', 'border-box')
   }
 
   static fromElement(el, options = {}) {
@@ -232,7 +232,7 @@ class nElement {
     }
   }
 
-  style(name, value = 'default') {
+  setStyle(name, value = 'default') {
     this.logs.element.push(['style', name, value])
 
     if (value === 'default') {
@@ -257,12 +257,12 @@ class nElement {
       }
 
       if (isset === true) {
-        self.style(name, value)
+        self.setStyle(name, value)
       }
     })
   }
-  
-  styleContainer(name, value) {
+
+  setStyleContainer(name, value) {
     this.logs.container.push(['style', name, value])
 
     if (value === 'default') {
@@ -281,7 +281,7 @@ class nElement {
 
   setText(text) {
     this.logs.element.push(['setText', text])
-    if (text) this.element.innerText = text
+    this.element.innerText = text || ''
     return this
   }
 
@@ -321,6 +321,12 @@ class nElement {
     return this
   }
 
+  onContainer(name, func) {
+    this.logs.container.push(['onContainer', name])
+    this.container.addEventListener(name, func)
+    return this
+  }
+
   render() {
     this.logs.element.push(['render'])
     this.container.append(this.element)
@@ -355,7 +361,7 @@ class nTextInput extends nValuable {
   constructor() {
     super({
       component: { name: 'text-input' },
-      element: { tagName: 'input' }
+      element: { tagName: 'input' },
     })
 
     this.build()
@@ -366,14 +372,40 @@ class nTextInput extends nValuable {
 
     this.attr('type', 'text')
 
-    this.style('box-shadow', '0 0 0.1rem 0 black')
-    this.style('box-sizing', 'border-box')
-    this.style('margin', '0 0 0.5rem 0')
-    this.style('outline', 'none')
-    this.style('font', 'inherit')
-    this.style('border', 'none')
-    this.style('width', '100%')
-    this.style('padding')
+    this.setStyle('box-shadow', '0 0 0.1rem 0 black')
+    this.setStyle('box-sizing', 'border-box')
+    this.setStyle('margin', '0 0 0.5rem 0')
+    this.setStyle('outline', 'none')
+    this.setStyle('font', 'inherit')
+    this.setStyle('border', 'none')
+    this.setStyle('width', '100%')
+    this.setStyle('padding')
+  }
+}
+
+class nPasswordInput extends nValuable {
+  constructor() {
+    super({
+      component: { name: 'password-input' },
+      element: { tagName: 'input' }
+    })
+
+    this.build()
+  }
+
+  build() {
+    super.build()
+
+    this.attr('type', 'password')
+
+    this.setStyle('box-shadow', '0 0 0.1rem 0 black')
+    this.setStyle('box-sizing', 'border-box')
+    this.setStyle('margin', '0 0 0.5rem 0')
+    this.setStyle('outline', 'none')
+    this.setStyle('font', 'inherit')
+    this.setStyle('border', 'none')
+    this.setStyle('width', '100%')
+    this.setStyle('padding')
   }
 }
 
@@ -390,15 +422,15 @@ class nTextarea extends nValuable {
   build() {
     super.build()
 
-    this.style('box-shadow', '0 0 0.1rem 0 black')
-    this.style('box-sizing', 'border-box')
-    this.style('margin', '0 0 0.5rem 0')
-    this.style('padding')
-    this.style('outline', 'none')
-    this.style('font', 'inherit')
-    this.style('resize', 'none')
-    this.style('border', 'none')
-    this.style('width', '100%')
+    this.setStyle('box-shadow', '0 0 0.1rem 0 black')
+    this.setStyle('box-sizing', 'border-box')
+    this.setStyle('margin', '0 0 0.5rem 0')
+    this.setStyle('padding')
+    this.setStyle('outline', 'none')
+    this.setStyle('font', 'inherit')
+    this.setStyle('resize', 'none')
+    this.setStyle('border', 'none')
+    this.setStyle('width', '100%')
   }
 
   setRows(rows) {
@@ -457,24 +489,6 @@ class nFileInput extends nValuable {
   }
 }
 
-class nText extends nValuable {
-  constructor() {
-    super({
-      component: { name: 'text' },
-    })
-  }
-}
-
-class nSmallText extends nValuable {
-  constructor() {
-    super({
-      component: { name: 'small-text' },
-    })
-
-    this.style('font-size', '0.75rem')
-  }
-}
-
 class nTextError extends nElement {
   constructor() {
     super({
@@ -487,8 +501,8 @@ class nTextError extends nElement {
   build() {
     super.build()
 
-    this.style('margin-bottom', '0.5rem')
-    this.style('color', 'red')
+    this.setStyle('margin-bottom', '0.5rem')
+    this.setStyle('color', 'red')
   }
 }
 
@@ -504,11 +518,11 @@ class nLabel extends nElement {
   build() {
     super.build()
 
-    this.style('margin-bottom', '0.5rem')
+    this.setStyle('margin-bottom', '0.5rem')
   }
 }
 
-class nH1 extends nText {
+class nH1 extends nElement {
   constructor() {
     super({
       component: { name: 'h1' },
@@ -520,12 +534,12 @@ class nH1 extends nText {
   build() {
     super.build()
 
-    this.styleContainer('display', 'inline-block')
-    this.styleContainer('width', '100%')
+    this.setStyleContainer('display', 'inline-block')
+    this.setStyleContainer('width', '100%')
 
-    this.style('font-size', '3rem')
-    this.style('margin-bottom')
-    this.style('text-align')
+    this.setStyle('font-size', '3rem')
+    this.setStyle('margin-bottom')
+    this.setStyle('text-align')
   }
 }
 
@@ -541,7 +555,7 @@ class nH2 extends nH1 {
   build() {
     super.build()
 
-    this.style('font-size', '1.5rem')
+    this.setStyle('font-size', '1.5rem')
   }
 }
 
@@ -557,7 +571,7 @@ class nH3 extends nH2 {
   build() {
     super.build()
 
-    this.style('font-size', '1.25rem')
+    this.setStyle('font-size', '1.25rem')
   }
 }
 
@@ -565,7 +579,7 @@ class nButton extends nElement {
   constructor() {
     super({
       component: { name: 'button' },
-      element: { tagName: 'button' }
+      element: { tagName: 'button' },
     })
 
     this.build()
@@ -574,15 +588,15 @@ class nButton extends nElement {
   build() {
     super.build()
 
-    this.style('display', 'inline-block')
-    this.style('margin', '0 0 0.5rem 0')
-    this.style('padding')
-    this.style('cursor', 'pointer')
-    this.style('outline', 'none')
-    this.style('font', 'inherit')
-    this.style('background-color', '#dddddd')
-    this.style('border', 'none')
-    this.style('width', '100%')
+    this.setStyle('display', 'inline-block')
+    this.setStyle('margin', '0 0 0.5rem 0')
+    this.setStyle('padding')
+    this.setStyle('cursor', 'pointer')
+    this.setStyle('outline', 'none')
+    this.setStyle('font', 'inherit')
+    this.setStyle('background-color', '#dddddd')
+    this.setStyle('border', 'none')
+    this.setStyle('width', '100%')
   }
 }
 
@@ -599,10 +613,10 @@ class nLink extends nElement {
   build() {
     super.build()
 
-    this.styleContainer('text-align')
+    this.setStyleContainer('text-align')
 
-    this.style('text-decoration', 'none')
-    this.style('display', 'inline-block')
+    this.setStyle('text-decoration', 'none')
+    this.setStyle('display', 'inline-block')
   }
 
   href(url) {
@@ -623,13 +637,13 @@ class nButtonLink extends nLink {
   build() {
     super.build()
 
-    this.styleContainer('width', '100%')
+    this.setStyleContainer('width', '100%')
 
-    this.style('background-color', '#cccccc')
-    this.style('cursor', 'pointer')
-    this.style('padding')
-    this.style('color', '#000')
-    this.style('width', '100%')
+    this.setStyle('background-color', '#cccccc')
+    this.setStyle('cursor', 'pointer')
+    this.setStyle('padding')
+    this.setStyle('color', '#000')
+    this.setStyle('width', '100%')
   }
 }
 
@@ -645,8 +659,8 @@ class nFlex extends nElement {
   build() {
     super.build()
 
-    this.style('display', 'flex')
-    this.style('justify-content', 'space-between')
+    this.setStyle('display', 'flex')
+    this.setStyle('justify-content', 'space-between')
   }
 }
 
@@ -663,16 +677,11 @@ class nImage extends nElement {
   build() {
     super.build()
 
-    this.style('max-width', '100%')
+    this.setStyle('max-width', '100%')
   }
 
   src(src) {
     return this.attr('src', src)
-  }
-
-  imageId(id) {
-    this.id = id
-    return this.src(`http://0.0.0.0/files/${id}/file`)
   }
 
   alt(alt) {
@@ -696,15 +705,15 @@ class nSelect extends nValuable {
   build() {
     super.build()
 
-    this.style('box-shadow', '0 0 0.1rem 0 black')
-    this.style('background-color', '#ffffff')
-    this.style('box-sizing', 'border-box')
-    this.style('margin', '0 0 0.5rem 0')
-    this.style('outline', 'none')
-    this.style('font', 'inherit')
-    this.style('border', 'none')
-    this.style('padding')
-    this.style('width')
+    this.setStyle('box-shadow', '0 0 0.1rem 0 black')
+    this.setStyle('background-color', '#ffffff')
+    this.setStyle('box-sizing', 'border-box')
+    this.setStyle('margin', '0 0 0.5rem 0')
+    this.setStyle('outline', 'none')
+    this.setStyle('font', 'inherit')
+    this.setStyle('border', 'none')
+    this.setStyle('padding')
+    this.setStyle('width')
   }
 
   appendOption({ key = '', value }) {
@@ -751,10 +760,10 @@ class nNotation extends nElement {
 
     const self = this
 
-    self.input.on('keyup', (event) => {
-      event.preventDefault()
+    self.input.on('keyup', (ev) => {
+      ev.preventDefault()
 
-      switch (event.keyCode.toString()) {
+      switch (ev.keyCode.toString()) {
         case '188':
         case '13':
           self.addPhrase(self.input.getValue())
@@ -763,7 +772,7 @@ class nNotation extends nElement {
     })
     self.append(self.input)
 
-    self.collection.style('clear', 'both')
+    self.collection.setStyle('clear', 'both')
     self.append(self.collection)
   }
 
@@ -772,12 +781,12 @@ class nNotation extends nElement {
 
     const el = new nElement()
 
-    el.style('margin', '0.5rem 0.5rem 0.5rem 0')
-    el.style('background-color', '#dddddd')
-    el.style('border-radius', '0.1rem')
-    el.style('display', 'inline')
-    el.style('padding', '0.5rem')
-    el.style('float', 'left')
+    el.setStyle('margin', '0.5rem 0.5rem 0.5rem 0')
+    el.setStyle('background-color', '#dddddd')
+    el.setStyle('border-radius', '0.1rem')
+    el.setStyle('display', 'inline')
+    el.setStyle('padding', '0.5rem')
+    el.setStyle('float', 'left')
 
     el.setText(phrase.replace(',', ''))
 
@@ -787,5 +796,24 @@ class nNotation extends nElement {
 
   getValue() {
     return this.phrases
+  }
+}
+
+class nError extends nElement {
+  constructor() {
+    super({
+      component: { name: 'error' },
+    })
+
+    this.build()
+  }
+
+  build() {
+    super.build()
+
+    const self = this
+
+    self.setStyle('margin-bottom', '0.5rem')
+    self.setStyle('color', 'red')
   }
 }
