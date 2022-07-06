@@ -7,10 +7,10 @@ services:
     volumes:
       - './src/front/www/html:/usr/share/nginx/html'
       - './src/front/commons:/usr/share/nginx/html/commons'
+      - './data/uploads:/usr/share/nginx/html/files/uploads'
     ports:
       - '80:80'
     depends_on:
-      - 'files'
       - 'panel'
       - 'static'
 
@@ -19,11 +19,6 @@ services:
     volumes:
       - './src/front/panel/html:/usr/share/nginx/html/panel'
       - './src/front/commons:/usr/share/nginx/html/panel/commons'
-
-  files:
-    build: './src/front/files'
-    volumes:
-      - './data/uploads:/usr/share/nginx/html/files/uploads'
 
   static:
     build: './src/front/static'
