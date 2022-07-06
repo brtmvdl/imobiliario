@@ -6,4 +6,4 @@ WORKDIR /app
 
 COPY . .
 
-CMD node /imobiliario/commons/server.js 2>> /imobiliario/logs/${HOSTNAME}.error.log
+CMD node /imobiliario/commons/server.js
