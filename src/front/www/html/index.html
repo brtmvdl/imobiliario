@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Imobiliario</title>
+</head>
+
+<body>
+  <div id="app"></div>
+
+  <script src="js/back.js"></script>
+  <script src="js/front.js"></script>
+
+  <script src="js/commons.js"></script>
+
+  <script>
+    const page = nElement.fromId('app')
+
+    page.append(new nPageHeaderLinks())
+    page.append(new nPageHeader())
+
+    const page_search = new nElement()
+    page_search.setStyle('background-color', '#33ccff')
+
+    const page_search_container = new nWrapper()
+    page_search_container.setStyle('padding', '4rem 0')
+
+    let stop = false
+
+    const search_input = new nTextInput()
+    search_input.on('keyup', ({ keyCode }) => {
+      keyCode == 13 &&
+        Flow.page('search.html', { search: { query: search_input.getValue() } })
+    })
+    search_input.on('focus', () => { stop = true })
+    search_input.on('blur', () => { stop = false; run_letters() })
+    page_search_container.append(search_input)
+
+    const letters = ({
+      word_list = [],
+      inputer = () => { },
+      word_index = 0,
+      letter_index = 0
+    }) => {
+      if (stop) return search_input.placeholder('')
+
+      if (word_index < 0 || word_index > word_list.length - 1) {
+        word_index = 0
+      }
+
+      let word = word_list[word_index]
+
+      if (letter_index < 0 || letter_index > word.length - 1) {
+        letter_index = 0
+      }
+
+      inputer(word.substring(0, letter_index + 1))
+
+      if (letter_index >= word.length - 1) {
+        letter_index = 0
+        word_index++
+      } else {
+        letter_index++
+      }
+
+      if (word_index >= word_list.length) {
+        letter_index = 0
+        word_index = 0
+      }
+
+      setTimeout(
+        () => letters({ word_list, inputer, word_index, letter_index }),
+        Math.floor(Math.random() * 400) + 100,
+      )
+    }
+
+    const run_letters = () => letters({
+      word_list: [
+        'Kitnet para estudantes  ',
+        'Casa em Rio Claro  ',
+        'Fazenda em Corumbataí  ',
+      ],
+      inputer: (input) => search_input.placeholder(input),
+    })
+
+    run_letters()
+
+    const search_link = new nLink()
+    search_link.setText('Ou use o filtro')
+    search_link.href('search.html')
+    search_link.setStyle('color', '#ffffff')
+    search_link.setStyleContainer('text-align', 'center')
+    page_search_container.append(search_link)
+
+    page_search.append(page_search_container)
+    page.append(page_search)
+
+    // TODO: implementar lista de imobiliarias
+
+  </script>
+</body>
+
+</html>
