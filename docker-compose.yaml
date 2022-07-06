@@ -6,24 +6,9 @@ services:
     build: './src/front/www'
     volumes:
       - './src/front/www/html:/usr/share/nginx/html'
-      - './src/front/commons:/usr/share/nginx/html/commons'
-      - './data/uploads:/usr/share/nginx/html/files/uploads'
+      - './data/uploads:/usr/share/nginx/html/uploads'
     ports:
       - '80:80'
-    depends_on:
-      - 'panel'
-      - 'static'
-
-  panel:
-    build: './src/front/panel'
-    volumes:
-      - './src/front/panel/html:/usr/share/nginx/html/panel'
-      - './src/front/commons:/usr/share/nginx/html/panel/commons'
-
-  static:
-    build: './src/front/static'
-    volumes:
-      - './src/front/static/html:/usr/share/nginx/html/static'
 
   api_users_register:
     hostname: api_users_register
@@ -35,7 +20,6 @@ services:
       - './src/api/users-register:/imobiliario/app'
       - './src/commons:/imobiliario/commons'
       - './data:/imobiliario/data'
-      - './logs:/imobiliario/logs'
 
   api_users_login:
     hostname: api_users_login
@@ -47,7 +31,6 @@ services:
       - './src/api/users-login:/imobiliario/app'
       - './src/commons:/imobiliario/commons'
       - './data:/imobiliario/data'
-      - './logs:/imobiliario/logs'
 
   api_upload:
     hostname: api_upload
@@ -59,4 +42,3 @@ services:
       - './src/api/upload:/go/src'
       - './src/commons:/imobiliario/commons'
       - './data:/imobiliario/data'
-      - './logs:/imobiliario/logs'
