@@ -31,7 +31,7 @@ const DataObject = function (dir, id) {
 
   self.writeMany = (many) => {
     Object.keys(many)
-      .map((key) => self.writeString(key, many[key].toString()))
+      .map((key) => self.writeString(key, many[key]))
 
     return self
   }
