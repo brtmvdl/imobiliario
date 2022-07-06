@@ -118,14 +118,13 @@ Api.login = ({ email }) =>
     .then(() => Ajax.post(['users', 'login'], { email }))
     .then(() => Flow.goTo('dashboard.html'))
 
-Api.usersRegister = ({ name, email }) =>
-  Validator.with({ name, email })
+Api.usersRegister = ({ email, password }) =>
+  Validator.with({ email, password })
     .validate({
-      name: [Validations.required('Nome inválido.')],
       email: [Validations.email()],
+      password: [Validations.required()],
     })
-    .then(() => Ajax.post(['users', 'register'], { name, email }))
-    .then(() => Flow.goTo('index.html'))
+    .then(() => Ajax.post(['users', 'register'], { email, password }))
 
 Api.upload = (file, { name, size, type }) =>
   Ajax.upload(file, { name, size, type })
