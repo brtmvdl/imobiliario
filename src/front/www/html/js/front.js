@@ -169,20 +169,27 @@ class nElement {
   }
 
   build() {
-    if (this.options?.element?.tagName) {
-      this.element = document.createElement(this.options.element.tagName)
-    }
-
-    if (this.options?.container?.tagName) {
-      this.container = document.createElement(this.options?.container?.tagName)
-    }
-
-    const name = this.options?.component?.name || undefined
-    this.container.classList.add(`ct-${name}`)
-    this.element.classList.add(`el-${name}`)
-
     this.setStyle('outline', 'none')
     this.setStyle('box-sizing', 'border-box')
+  }
+
+  name(name = 'none') {
+    this.container.classList.add(`ct-${name}`)
+    this.element.classList.add(`el-${name}`)
+  }
+
+  elementTagName(tagName) {
+    const name = Array.from(this.element.classList).find(cl => cl.indexOf('el-') >= 0)
+    this.element = document.createElement(tagName)
+    this.options.element = { ...this.options.element, tagName }
+    this.name(name?.substring(3))
+  }
+
+  containerTagName(tagName) {
+    const name = Array.from(this.container.classList).find(cl => cl.indexOf('ct-') >= 0)
+    this.container = document.createElement(tagName)
+    this.options.container = { ...this.options.container, tagName }
+    this.name(name?.substring(3))
   }
 
   static fromElement(el, options = {}) {
@@ -285,6 +292,12 @@ class nElement {
     return this
   }
 
+  appendText(text) {
+    this.logs.element.push(['appendText', text])
+    this.element.innerText += text || ''
+    return this
+  }
+
   getText() {
     this.logs.element.push(['getText'])
     return this.element.innerText
@@ -359,10 +372,10 @@ class nValuable extends nElement {
 
 class nTextInput extends nValuable {
   constructor() {
-    super({
-      component: { name: 'text-input' },
-      element: { tagName: 'input' },
-    })
+    super()
+
+    this.name('text-input')
+    this.elementTagName('input')
 
     this.build()
   }
@@ -385,10 +398,10 @@ class nTextInput extends nValuable {
 
 class nPasswordInput extends nValuable {
   constructor() {
-    super({
-      component: { name: 'password-input' },
-      element: { tagName: 'input' }
-    })
+    super()
+
+    this.name('password-input')
+    this.elementTagName('input')
 
     this.build()
   }
@@ -411,10 +424,10 @@ class nPasswordInput extends nValuable {
 
 class nTextarea extends nValuable {
   constructor() {
-    super({
-      component: { name: 'textarea' },
-      element: { tagName: 'textarea' }
-    })
+    super()
+
+    this.name('textarea')
+    this.elementTagName('textarea')
 
     this.build()
   }
@@ -441,10 +454,10 @@ class nTextarea extends nValuable {
 
 class nFileInput extends nValuable {
   constructor() {
-    super({
-      component: { name: 'file-input' },
-      element: { tagName: 'input' }
-    })
+    super()
+
+    this.name('file-input')
+    this.elementTagName('input')
 
     this.build()
   }
@@ -491,9 +504,9 @@ class nFileInput extends nValuable {
 
 class nTextError extends nElement {
   constructor() {
-    super({
-      component: { name: 'text-error' },
-    })
+    super()
+
+    this.name('text-error')
 
     this.build()
   }
@@ -508,9 +521,9 @@ class nTextError extends nElement {
 
 class nLabel extends nElement {
   constructor() {
-    super({
-      component: { name: 'label' },
-    })
+    super()
+
+    this.name('label')
 
     this.build()
   }
@@ -524,9 +537,9 @@ class nLabel extends nElement {
 
 class nH1 extends nElement {
   constructor() {
-    super({
-      component: { name: 'h1' },
-    })
+    super()
+
+    this.name('h1')
 
     this.build()
   }
@@ -545,9 +558,9 @@ class nH1 extends nElement {
 
 class nH2 extends nH1 {
   constructor() {
-    super({
-      component: { name: 'h2' },
-    })
+    super()
+
+    this.name('h2')
 
     this.build()
   }
@@ -561,9 +574,9 @@ class nH2 extends nH1 {
 
 class nH3 extends nH2 {
   constructor() {
-    super({
-      component: { name: 'h3' },
-    })
+    super()
+
+    this.name('h3')
 
     this.build()
   }
@@ -577,10 +590,10 @@ class nH3 extends nH2 {
 
 class nButton extends nElement {
   constructor() {
-    super({
-      component: { name: 'button' },
-      element: { tagName: 'button' },
-    })
+    super()
+
+    this.name('button')
+    this.elementTagName('button')
 
     this.build()
   }
@@ -602,10 +615,10 @@ class nButton extends nElement {
 
 class nLink extends nElement {
   constructor() {
-    super({
-      component: { name: 'link' },
-      element: { tagName: 'a' }
-    })
+    super()
+
+    this.name('link')
+    this.elementTagName('a')
 
     this.build()
   }
@@ -623,13 +636,18 @@ class nLink extends nElement {
     this.element.href = url
     return this
   }
+
+  blank() {
+    this.attr('target', '_blank')
+    return this
+  }
 }
 
 class nButtonLink extends nLink {
   constructor() {
-    super({
-      component: { name: 'button-link' },
-    })
+    super()
+
+    this.name('button-link')
 
     this.build()
   }
@@ -649,9 +667,9 @@ class nButtonLink extends nLink {
 
 class nFlex extends nElement {
   constructor() {
-    super({
-      component: { name: 'flex' },
-    })
+    super()
+
+    this.name('flex')
 
     this.build()
   }
@@ -666,10 +684,10 @@ class nFlex extends nElement {
 
 class nImage extends nElement {
   constructor() {
-    super({
-      component: { name: 'image' },
-      element: { tagName: 'img' }
-    })
+    super()
+
+    this.name('image')
+    this.elementTagName('img')
 
     this.build()
   }
@@ -694,10 +712,10 @@ class nSelect extends nValuable {
   optionElements = []
 
   constructor() {
-    super({
-      component: { name: 'select' },
-      element: { tagName: 'select' }
-    })
+    super()
+
+    this.name('select')
+    this.elementTagName('select')
 
     this.build()
   }
@@ -741,69 +759,11 @@ class nSelect extends nValuable {
   }
 }
 
-class nNotation extends nElement {
-  collection = new nElement()
-  input = new nTextInput()
-
-  phrases = []
-
-  constructor() {
-    super({
-      component: { name: 'notation' },
-    })
-
-    this.build()
-  }
-
-  build() {
-    super.build()
-
-    const self = this
-
-    self.input.on('keyup', (ev) => {
-      ev.preventDefault()
-
-      switch (ev.keyCode.toString()) {
-        case '188':
-        case '13':
-          self.addPhrase(self.input.getValue())
-          break;
-      }
-    })
-    self.append(self.input)
-
-    self.collection.setStyle('clear', 'both')
-    self.append(self.collection)
-  }
-
-  addPhrase(phrase) {
-    this.phrases.push(phrase)
-
-    const el = new nElement()
-
-    el.setStyle('margin', '0.5rem 0.5rem 0.5rem 0')
-    el.setStyle('background-color', '#dddddd')
-    el.setStyle('border-radius', '0.1rem')
-    el.setStyle('display', 'inline')
-    el.setStyle('padding', '0.5rem')
-    el.setStyle('float', 'left')
-
-    el.setText(phrase.replace(',', ''))
-
-    this.collection.append(el)
-    this.input.erase()
-  }
-
-  getValue() {
-    return this.phrases
-  }
-}
-
 class nError extends nElement {
   constructor() {
-    super({
-      component: { name: 'error' },
-    })
+    super()
+
+    this.name('error')
 
     this.build()
   }
@@ -815,5 +775,30 @@ class nError extends nElement {
 
     self.setStyle('margin-bottom', '0.5rem')
     self.setStyle('color', 'red')
+  }
+}
+
+class nCheckbox extends nElement {
+  constructor() {
+    super()
+
+    this.name('checkbox')
+    this.elementTagName('checkbox')
+
+    this.build()
+  }
+
+  build() {
+    super.build()
+
+    this.setStyleContainer('display', 'inline-block')
+
+    this.setStyle('box-shadow', '0 0 0.1rem 0 black')
+    this.setStyle('display', 'inline-block')
+    this.setStyle('cursor', 'pointer')
+    this.setStyle('height', '.75rem')
+    this.setStyle('width', '.75rem')
+
+    // this.on('click', ({ target }) => console.log({ target }))
   }
 }
