@@ -7,9 +7,9 @@ nElement.fromElement(document.body)
 
 class nWrapper extends nElement {
   constructor() {
-    super({
-      component: { name: 'wrapper' },
-    })
+    super()
+
+    this.name('wrapper')
 
     this.build()
   }
@@ -19,6 +19,7 @@ class nWrapper extends nElement {
 
     this.setStyle('margin', '0 auto')
     this.conditionalStyle('width', [
+      { whenWindow: { width: 1920, }, value: '80rem' },
       { whenWindow: { width: 1366, }, value: '60rem' },
       { whenWindow: { width: 683, }, value: '40rem' },
     ])
@@ -31,9 +32,9 @@ class nModal extends nElement {
   body = new nElement()
 
   constructor() {
-    super({
-      component: { name: 'modal' },
-    })
+    super()
+
+    this.name('modal')
 
     this.build()
   }
@@ -57,7 +58,7 @@ class nModal extends nElement {
 
     self.setStyle('background-color', 'rgb(255, 255, 255)')
     self.setStyle('margin', '2rem auto')
-    self.setStyle('width', '40rem')
+    self.setStyle('width', '20rem')
 
     self.header.setStyle('padding', '1rem')
     self.header.setStyle('background-color', '#33ccff')
@@ -85,9 +86,9 @@ class nTextInputComponent extends nElement {
   error = new nError()
 
   constructor() {
-    super({
-      component: { name: 'text-input-component' },
-    })
+    super()
+
+    this.name('text-input-component')
 
     this.build()
   }
@@ -112,9 +113,9 @@ class nPasswordInputComponent extends nElement {
   error = new nError()
 
   constructor() {
-    super({
-      component: { name: 'password-input-component' },
-    })
+    super()
+
+    this.name('password-input-component')
 
     this.build()
   }
@@ -131,6 +132,49 @@ class nPasswordInputComponent extends nElement {
   }
 }
 
+class nSpan extends nElement {
+  constructor() {
+    super()
+
+    this.containerTagName('span')
+    this.elementTagName('span')
+    this.name('span')
+
+    this.build()
+  }
+
+  build() {
+    super.build()
+  }
+}
+
+class nCheckboxComponent extends nElement {
+  checkbox = new nCheckbox()
+  label = new nLabel()
+
+  constructor() {
+    super()
+
+    this.name('checkbox-component')
+
+    this.build()
+  }
+
+  build() {
+    super.build()
+
+    const self = this
+
+    self.checkbox.containerTagName('span')
+    super.append(self.checkbox)
+
+    self.label.containerTagName('span')
+    self.label.elementTagName('span')
+    self.label.setStyle('margin', '0 0 0 .25rem')
+    super.append(self.label)
+  }
+}
+
 class nPageHeaderLinks extends nElement {
   wrapper = new nWrapper()
 
@@ -141,9 +185,9 @@ class nPageHeaderLinks extends nElement {
   login_modal = new nModal()
 
   constructor() {
-    super({
-      component: { name: 'page-header-links' },
-    })
+    super()
+
+    this.name('page-header-links')
 
     this.build()
   }
@@ -166,6 +210,22 @@ class nPageHeaderLinks extends nElement {
     register_password.label.setText('Senha')
     register_password.input.placeholder('Senha')
     self.register_modal.body.append(register_password)
+
+    const register_accept = new nCheckboxComponent()
+
+    const register_accept_link = new nLink()
+    register_accept_link.blank()
+    register_accept_link.setStyleContainer('display', 'inline')
+    register_accept_link.containerTagName('span')
+    register_accept_link.setText('Termos de uso')
+    register_accept_link.href('/politicas')
+
+    const register_accept_text = new nSpan()
+    register_accept_text.setText('Aceito os ')
+    register_accept_text.append(register_accept_link)
+
+    register_accept.label.append(register_accept_text)
+    self.register_modal.body.append(register_accept)
 
     const register_error = new nError()
     self.register_modal.body.append(register_error)
@@ -236,9 +296,9 @@ class nPageHeader extends nElement {
   wrapper = new nWrapper()
 
   constructor() {
-    super({
-      component: { name: 'page-header' },
-    })
+    super()
+
+    this.name('page-header')
 
     this.build()
   }
